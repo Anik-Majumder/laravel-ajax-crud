@@ -203,7 +203,7 @@ $('#headerAddForm').submit(function(e)
 
             $('#headerAddForm')[0].reset();
             $('#addModal').modal('hide');
-            headerTable.ajax().reload();
+            headerTable.ajax.reload();
             
         },
         error:function(err)
