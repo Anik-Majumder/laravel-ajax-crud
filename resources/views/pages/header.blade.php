@@ -103,16 +103,20 @@
             <div class="modal-body">
                 <form id="headerFormUpdate" >
                     @csrf
-                    @method("PUT")
-                    <input type="text" id="edit-id" name="id">
+                    <!-- @method("PUT") -->
+                    <input type="hidden" id="edit_id" name="edit_id">
                     <div class="row">
                         <div class="col-lg">
                             <label>Title 1</label>
-                            <input type="text" name="title1" id="title1" class="form-control">
+                            <input type="text" name="title_1" id="title_1" class="form-control">
+                        </div>
+                        <div class="col-lg">
+                            <label>Title 2</label>
+                            <input type="text" name="title_2" id="title_2" class="form-control">
                         </div>
                         <div class="col-lg">
                             <label>Short Description</label>
-                            <textarea name="Short_desc" id="Short_desc" class="form-control"></textarea>
+                            <textarea name="desc" id="desc" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -214,6 +218,102 @@ $('#headerAddForm').submit(function(e)
 )
 
     
+})
+
+// read header
+
+$(document).on('click','.edit-btn', function(){
+    let id = $(this).data('id');
+    
+    $('#id').val(id);
+
+    $.ajax(
+    {
+        url:"{{ url('headers') }}/" + id + "/edit",
+        type:'GET',
+        // headers:{
+        //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        // },
+        data:{
+            id: id
+        },
+        processData:false,
+        contentType:false,
+        success:function(res)
+        {
+            $('#title_1').val(res.data.title_1)
+            $('#title_2').val(res.data.title_2)
+            $('#desc').val(res.data.desc)
+            $('#btn_link').val(res.data.btn_link)
+            $('#btn_text').val(res.data.btn_text)
+        },
+        error:function(err)
+        {
+            console.log(err);
+        }
+    })
+})
+
+// update header
+
+$('#headerFormUpdate').submit(function(e)
+{
+    e.preventDefault();
+    let id = $('#edit_id').val();
+    $.ajax(
+    {
+        url:"{{ url('headers-update') }}/" + id,
+        type:'POST',
+        headers:{
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data:new FormData(this),
+        processData:false,
+        contentType:false,
+        success:function(res)
+        {
+            console.log('success');
+
+            $('#headerFormUpdate')[0].reset();
+            $('#editModal').modal('hide');
+            headerTable.ajax.reload();
+            
+        },
+        error:function(err)
+        {
+            console.log(err);
+        }
+    }
+)
+
+    
+})
+
+// Delete Admin
+
+$(document).on('click', '#deleteHeaderBtn', function () 
+{
+                let id = $(this).data('id');
+                $('#id').val(id);
+                console.log(id);
+                
+
+                $.ajax({
+                    
+                    url:"{{ url('headers') }}/" + id,
+                    type: 'DELETE',
+                    success: function (res) {
+                    
+                        // headerTable.ajax.reload();
+                        console.log("success");
+                        
+                    },
+                    eror:function (err) {
+                        console.log(err);
+                    }
+                })
+
+
 })
 
 
