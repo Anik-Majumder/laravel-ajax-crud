@@ -12,19 +12,20 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('/headers', HeaderController::class)->names('header');
+});
 
 require __DIR__ . '/auth.php';
 
 
-//  header toutes
+//  header routes
+
+Route::get('/get-headers-data', [HeaderController::class, 'getHeaderData'])->name('get-header-data');
 
 Route::resource('/headers', HeaderController::class)->names('header');
 
-Route::post('/headers-update/{header}', [HeaderController::class, 'updateHeader'])->name('update.header');
-
-Route::get('/get-headers-data', [HeaderController::class, 'getHeaderData'])->name('get-header-data');
+// 
