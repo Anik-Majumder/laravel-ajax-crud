@@ -23,7 +23,9 @@ class HeaderController extends Controller
             ->addColumn('action', function ($header) {
                 return '<a href="" class="btn btn-sm btn-success edit-btn" data-id="' . $header->id . '" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a> 
                 <a href="" id="deleteHeaderBtn" class="btn btn-sm btn-danger delete-btn" data-id="' . $header->id . '">Delete</a>';
-            })
+            })->addColumn('profile_img', function ($header) {
+                return '<img src="' . $header->profile_img . '" border="0" width="40" height="40" class="img-rounded" align="center" />';
+            })->rawColumns(['profile_img', 'action'])
             ->make(true);
     }
 
@@ -42,8 +44,7 @@ class HeaderController extends Controller
                 'title_2' => 'string',
                 'desc' => 'string',
                 'btn_text' => 'string',
-                'btn_link' => 'string',
-                'profile_img' => 'mime',
+                'btn_link' => 'string'
             ]
         );
 
@@ -54,6 +55,16 @@ class HeaderController extends Controller
         $header->desc = $request->desc;
         $header->btn_text = $request->btn_text;
         $header->btn_link = $request->btn_link;
+
+        // single image upload
+
+        if ($request->hasFile('profile_img')) {
+            $profile_img = $request->file('profile_img');
+            $img = uniqid() . '.' . time() . '.' . $profile_img->getClientOriginalExtension();
+            $profile_img->move(public_path('uploads/header/'), $img);
+            $header->profile_img = 'uploads/header/' . $img;
+        }
+        // single image upload end
 
         $check = $header->save();
 
@@ -85,8 +96,7 @@ class HeaderController extends Controller
                 'title_2' => 'string',
                 'desc' => 'string',
                 'btn_text' => 'string',
-                'btn_link' => 'string',
-                'profile_img' => 'mime',
+                'btn_link' => 'string'
             ]
         );
 
@@ -95,6 +105,16 @@ class HeaderController extends Controller
         $header->desc = $request->desc;
         $header->btn_text = $request->btn_text;
         $header->btn_link = $request->btn_link;
+
+        // single image upload
+
+        if ($request->hasFile('profile_img')) {
+            $profile_img = $request->file('profile_img');
+            $img = uniqid() . '.' . time() . '.' . $profile_img->getClientOriginalExtension();
+            $profile_img->move(public_path('uploads/header/'), $img);
+            $header->profile_img = 'uploads/header/' . $img;
+        }
+        // single image upload end
 
         $check = $header->save();
 

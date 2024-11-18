@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Header</title>
+    <title>Projects</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -17,23 +17,22 @@
         <div class="col-md-12">
             <div class="card mt-4 shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4> components List</h4>
+                    <h4>Project components List</h4>
                     <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addModal">
                         <i class="bi bi-database-add"></i> ADD
                     </button>
                 </div>
                 <div class="card-body">
-                    <table class="table" id="headerTable">
+                    <table class="table" id="projectTable">
                         <thead>
                         <tr>
+
                             <th scope="col">SL</th>
                             <th scope="col">IMAGE</th>
-                            <th scope="col">TITLE 1</th>
-                            <th scope="col">TITLE 2</th>
-                            <th scope="col">Short Description</th>
-                            <th scope="col">Button Text</th>
-                            <th scope="col">Button Link</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">PROJECT TITLE</th>
+                            <th scope="col">BUTTON TEXT</th>
+                            <th scope="col">BUTTON LINK</th>
+                            <th scope="col">ACTION</th>
                           
                         </tr>
                         </thead>
@@ -46,33 +45,25 @@
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Header</h5>
+                    <div class="modal-project">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Projects</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form name="form" id="headerAddForm">
+                        <form name="form" id="projectAddForm" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
+
                                 <div class="col-lg">
                                     <label>Image</label>
-                                    <input type="file" name="profile_img" id="name" class="form-control">
-                                </div>
-                                <div class="col-lg">
-                                    <label>Title 1</label>
-                                    <input type="text" name="title_1" id="name" class="form-control">
+                                    <input type="file" name="thumb_image" id="name" class="form-control">
                                 </div>
                                 
-                            </div>
-                            <div class="row">
                                 <div class="col-lg">
-                                    <label>Title 2</label>
-                                    <input type="text" name="title_2" id="name" class="form-control">
+                                    <label>Project Title</label>
+                                    <input type="text" name="project_title" id="name" class="form-control">
                                 </div>
-                                <div class="col-lg">
-                                    <label>Short Description</label>
-                                    <textarea name= "desc" class="form-control"></textarea>
-                                </div>
+                                
                             </div>
                             <div class="row">
                                 <div class="col-lg">
@@ -105,36 +96,25 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Header</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit projects</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="headerFormUpdate" >
+                <form id="projectFormUpdate" enctype="multipart/form-data" >
                     @csrf
                     @method("PUT")
                     <input type="text" id="edit_id" name="edit_id">
                     <div class="row">
                         <div class="col-lg">
                             <label>Image</label>
-                            <input type="file" name="profile_img"  class="form-control">
-                            <img src="" alt="" width="40px" height="40px" id="profile_img">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg">
-                            <label>Title 1</label>
-                            <input type="text" name="title_1" id="title_1" class="form-control">
+                            <input type="file" name="thumb_image"  class="form-control">
+
+                            <img src="" alt="" width="40px" height="40px" id="thumb_image">
+                            
                         </div>
                         <div class="col-lg">
-                            <label>Title 2</label>
-                            <input type="text" name="title_2" id="title_2" class="form-control">
-                        </div>
-                        
-                    </div>
-                    <div class="row">
-                        <div class="col-lg">
-                            <label>Short Description</label>
-                            <textarea name="desc" id="desc" class="form-control"></textarea>
+                            <label>Project Title</label>
+                            <input type="text" name="project_title" id="project_title" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -171,32 +151,26 @@
     
 //Render Datatables
 
-    let headerTable = $('#headerTable').DataTable({
+    let projectTable = $('#projectTable').DataTable({
         processing:true,
         serverSide:true,
-        ajax: "{{ route('get-header-data') }}",
+        ajax: "{{ route('get-project-data') }}",
 
         columns:[
             {
-                data:'id',
+                data:'id'
             },
             {
-                data:'profile_img',
+                data:'thumb_image'
             },
             {
-                data:'title_1',
+                data:'project_title'
             },
             {
-                data:'title_2',
+                data:'btn_text'
             },
             {
-                data:'desc',
-            },
-            {
-                data:'btn_text',
-            },
-            {
-                data:'btn_link',
+                data:'btn_link'
             },
             {
                 data:'action',
@@ -208,16 +182,16 @@
     });
 
     
-// add header
+// add project
 
-$('#headerAddForm').submit(function(e)
+$('#projectAddForm').submit(function(e)
 {
     e.preventDefault();
 
 
     $.ajax(
     {
-        url:"{{ route('header.store') }}",
+        url:"{{ route('project.store') }}",
         type:'POST',
         data:new FormData(this),
         processData:false,
@@ -226,9 +200,9 @@ $('#headerAddForm').submit(function(e)
         {
             console.log('success');
 
-            $('#headerAddForm')[0].reset();
+            $('#projectAddForm')[0].reset();
             $('#addModal').modal('hide');
-            headerTable.ajax.reload();
+            projectTable.ajax.reload();
             
         },
         error:function(err)
@@ -241,19 +215,16 @@ $('#headerAddForm').submit(function(e)
     
 })
 
-// read header
+// read project
 
 $(document).on('click','.edit-btn', function()
 {
     let id = $(this).data('id');
     console.log(id);
     
-    
-    // $('#id').val(id);
-
     $.ajax(
     {
-        url:"{{ url('headers') }}/" + id + "/edit",
+        url:"{{ url('projects') }}/" + id + "/edit",
         type:'GET',
         data:{
             id: id
@@ -263,10 +234,8 @@ $(document).on('click','.edit-btn', function()
         success:function(res)
         {
             $('#edit_id').val(res.data.id)
-            $('#profile_img').attr('src',res.data.profile_img)
-            $('#title_1').val(res.data.title_1)
-            $('#title_2').val(res.data.title_2)
-            $('#desc').val(res.data.desc)
+            $('#thumb_image').attr('src',res.data.thumb_image)
+            $('#project_title').val(res.data.project_title)
             $('#btn_link').val(res.data.btn_link)
             $('#btn_text').val(res.data.btn_text)
         },
@@ -277,16 +246,18 @@ $(document).on('click','.edit-btn', function()
     })
 })
 
-// update header
+// update project
 
-$('#headerFormUpdate').submit(function(e)
+$('#projectFormUpdate').submit(function(e)
 {
     e.preventDefault();
     let id = $('#edit_id').val();
+    console.log(id);
+    
 
     $.ajax(
     {
-        url:"{{ url('headers') }}/" + id,
+        url:"{{ url('projects') }}/" + id,
         type:'POST',
         headers:{
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -298,9 +269,9 @@ $('#headerFormUpdate').submit(function(e)
         {
             console.log('success');
 
-            $('#headerFormUpdate')[0].reset();
+            $('#projectFormUpdate')[0].reset();
             $('#editModal').modal('hide');
-            headerTable.ajax.reload();
+            projectTable.ajax.reload();
             
         },
         error:function(err)
@@ -315,21 +286,21 @@ $('#headerFormUpdate').submit(function(e)
 
 // Delete header
 
-$(document).on('click', '#deleteHeaderBtn', function () 
+$(document).on('click', '#deleteProjectBtn', function () 
 {
                 let id = $(this).data('id');
                 console.log(id);
 
                 $.ajax({
                     
-                    url:"{{ url('headers') }}/" + id,
+                    url:"{{ url('projects') }}/" + id,
                     type: 'DELETE',
                     headers:{
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function (res) {
                     
-                        headerTable.ajax.reload();
+                        projectTable.ajax.reload();
                         console.log("success");
                         
                     },

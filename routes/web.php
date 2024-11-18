@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,4 +29,8 @@ Route::get('/get-headers-data', [HeaderController::class, 'getHeaderData'])->nam
 
 Route::resource('/headers', HeaderController::class)->names('header');
 
-// 
+// project routes
+
+Route::get('/get-projects-data', [ProjectController::class, 'getProjectData'])->name('get-project-data');
+
+Route::resource('/projects', ProjectController::class)->names('project');
