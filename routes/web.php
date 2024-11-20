@@ -3,6 +3,7 @@
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Models\Header;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +23,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+//-----------------backend routes----------------//
 
 //  header routes
 
@@ -34,3 +36,11 @@ Route::resource('/headers', HeaderController::class)->names('header');
 Route::get('/get-projects-data', [ProjectController::class, 'getProjectData'])->name('get-project-data');
 
 Route::resource('/projects', ProjectController::class)->names('project');
+
+
+//-----------------frontend routes----------------//
+
+Route::get('/anik', function () {
+    // $header = Header::first();
+    return view('master');
+});
